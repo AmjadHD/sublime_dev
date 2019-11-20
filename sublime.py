@@ -78,17 +78,17 @@ LAYOUT_BLOCK = 2
 
 
 def version():
-    """Returns the version number"""
+    """Returns the version number."""
     return sublime_api.version()
 
 
 def platform():
-    """Returns the platform, which may be "osx", "linux" or "windows" """
+    """Returns the platform which may be "osx", "linux" or "windows"."""
     return sublime_api.platform()
 
 
 def arch():
-    """Returns the CPU architecture, which may be "x32" or "x64" """
+    """Returns the CPU architecture which may be "x32" or "x64"."""
     return sublime_api.architecture()
 
 
@@ -97,7 +97,7 @@ def channel():
 
 
 def executable_path():
-    """Returns the path to _sublime_text_ executable"""
+    """Returns the path to the _sublime_text_ executable."""
     return sublime_api.executable_path()
 
 
@@ -109,64 +109,85 @@ def executable_hash():
 
 
 def packages_path():
-    """Returns the path where all the user's loose packages are located"""
+    """Returns the path where all the user's loose packages are located."""
     return sublime_api.packages_path()
 
 
 def installed_packages_path():
-    """Returns the path where all the user's _.sublime-package_ files are located"""
+    """Returns the path where all the user's .sublime-package files are located."""
     return sublime_api.installed_packages_path()
 
 
 def cache_path():
-    """Returns the path where Sublime Text stores cache files"""
+    """Returns the path where Sublime Text stores cache files."""
     return sublime_api.cache_path()
 
 
 def status_message(msg):
-    """Show a message in the status bar"""
+    """Shows a message in the status bar."""
     sublime_api.status_message(msg)
 
 
 def error_message(msg):
-    """Displays an error dialog to the user"""
+    """Displays an error dialog to the user."""
     sublime_api.error_message(msg)
 
 
 def message_dialog(msg):
-    """Displays a message dialog to the user"""
+    """Displays a message dialog to the user."""
     sublime_api.message_dialog(msg)
 
 
 def ok_cancel_dialog(msg, ok_title=""):
     """
-    Displays an <kbd>ok</kbd>  <kbd>cancel</kbd> question dialog to the user If _`ok_title`_ is
-    provided, this may be used as the text on the <kbd>ok</kbd> button.
-    Returns `True` if the user presses the <kbd>ok</kbd> button
+    Displays an ok cancel question dialog to the user.
+
+    Args:
+        msg: The dialog message.
+        ok_title: The text on the ok button.
+
+    Returns:
+        `True` if the user presses the ok button, `False` otherwise.
     """
     return sublime_api.ok_cancel_dialog(msg, ok_title)
 
 
 def yes_no_cancel_dialog(msg, yes_title="", no_title=""):
     """
-    Displays a <kbd>yes</kbd>  <kbd>no</kbd>  <kbd>cancel</kbd> question dialog to the user
-    If _`yes_title`_ and/or _`no_title`_ are provided, they will be used as the
-    text on the corresponding buttons on some platforms. Returns `DIALOG_YES`,
-    `DIALOG_NO` or `DIALOG_CANCEL`
+    Displays a yes no cancel dialog to the user.
+
+    Args:
+        msg: The dialog message.
+        yes_title: The text on the yes button.
+        no_title: The text on the no button.
+
+    Returns:
+        `DIALOG_YES`, `DIALOG_NO` or `DIALOG_CANCEL`.
     """
     return sublime_api.yes_no_cancel_dialog(msg, yes_title, no_title)
 
 
 def run_command(cmd, args=None):
-    """Runs the named `ApplicationCommand` with the (optional) given _`args`_"""
+    """
+    Runs the named `ApplicationCommand`.
+
+    Args:
+        cmd: The command name.
+        args: The arguments passed to the command.
+    """
     sublime_api.run_command(cmd, args)
 
 
 def get_clipboard(size_limit=16777216):
     """
-    Returns the content of the clipboard, for performance reason if the size
-    of the clipboard content is bigger than _`size_limit`_, an empty string will
-    be returned
+    Returns the content of the clipboard.
+
+    Args:
+        size_limit: The maximum number of characters to get from the clipboard.
+
+    Returns:
+        The contents of the clipboard or, for performance reasons, the empty
+        string if the size of the clipboard is bigger than size_limit.
     """
     return sublime_api.get_clipboard(size_limit)
 
@@ -178,24 +199,28 @@ def set_clipboard(text):
 
 def log_commands(flag):
     """
-    Controls command logging. If enabled, all commands run from key bindings
-    and the menu will be logged to the console
+    Controls command logging.
+
+    If enabled, all commands run from key bindings and the menu will be logged.
     """
     sublime_api.log_commands(flag)
 
 
 def log_input(flag):
     """
-    Enables or disables input logging. This is useful to find the names of
-    certain keys on the keyboard
+    Enables or disables input logging.
+
+    This is useful to find the names of certain keys on the keyboard.
     """
     sublime_api.log_input(flag)
 
 
 def log_result_regex(flag):
     """
-    Enables or disables result regex logging. This is useful when trying to
-    debug _file_regex_ and _line_regex_ in build systems
+    Enables or disables result regex logging.
+
+    This is useful when trying to debug file_regex and line_regex in build
+    systems.
     """
     sublime_api.log_result_regex(flag)
 
@@ -210,18 +235,32 @@ def log_build_systems(flag):
 
 def score_selector(scope_name, selector):
     """
-    Matches the _`selector`_ against the given scope, returning a score
-    A score of 0 means no match, above 0 means a match. Different selectors may
-    be compared against the same scope: a higher score means the selector is a
-    better match for the scope
+    Matches the selector against the given scope and return a score.
+
+    Different selectors may be compared against the same scope, a higher score
+    means the selector is a better match for the scope.
+
+    Args:
+        scope_name: The name of the scope (e.g source.python).
+
+    Returns:
+        A score of 0 means no match, above 0 means a match.
     """
     return sublime_api.score_selector(scope_name, selector)
 
 
 def load_resource(name):
     """
-    Loads the given resource. The _`name`_ should be in the format
-    _Packages/Default/Main.sublime-menu_
+    Loads the given resource.
+
+    Args:
+        name: A string in the format Packages/Default/Main.sublime-menu.
+
+    Returns:
+        The contents of the resource as a string.
+
+    Raises:
+        IOError: resource not found.
     """
     s = sublime_api.load_resource(name)
     if s is None:
@@ -231,8 +270,16 @@ def load_resource(name):
 
 def load_binary_resource(name):
     """
-    Loads the given resource. The _`name`_ should be in the format
-    _Packages/Default/Main.sublime-menu_
+    Loads the given resource.
+
+    Args:
+        name: A string in the format Packages/Default/Main.sublime-menu.
+
+    Returns:
+        The contents of the resource as a bytearray.
+
+    Raises:
+        IOError: resource not found.
     """
     bytes = sublime_api.load_binary_resource(name)
     if bytes is None:
@@ -241,22 +288,45 @@ def load_binary_resource(name):
 
 
 def find_resources(pattern):
-    """Finds resources whose file name matches the given _`pattern`_"""
+    """
+    Find resources whose file name matches the given pattern.
+
+    Args:
+        pattern: A string in the format *.sublime-settings.
+
+    Returns:
+        A list of resourses in the form Packages/User/Preferences.sublime-settings.
+    """
     return sublime_api.find_resources(pattern)
 
 
 def encode_value(val, pretty=False):
     """
-    Encode a JSON compatible value into a string representation
-    If _`pretty`_ is set to `True`, the string will include newlines and indentation
+    Encodes a JSON compatible value into a string representation.
+
+    Args:
+        val: A JSON compatible value to be encoded.
+        pretty: If set to `True`, the string will include newlines and
+            indentation.
+
+    Returns:
+        The string representation of the JSON value.
     """
     return sublime_api.encode_value(val, pretty)
 
 
 def decode_value(data):
     """
-    Decodes a JSON string into an object.
-    If _`data`_ is invalid, a `ValueError` will be thrown
+    Decodes a JSON string into a python object.
+
+    Args:
+        data: A JSON string to be decoded
+
+    Returns:
+        A JSON compatible value.
+
+    Raises:
+        ValueError: data is not valid JSON
     """
     val, err = sublime_api.decode_value(data)
 
@@ -268,65 +338,93 @@ def decode_value(data):
 
 def expand_variables(val, variables):
     """
-    Expands any variables in the string _`value`_ using the variables defined in
-    the dictionary _`variables`_
-    _`value`_ may also be a `list` or `dict`, in which case the structure will be
-    recursively expanded. Strings should use snippet syntax, for example:
+    Expand any variables in the string val using the variables defined in
+    the dictionary variables
+
     ```python
     expand_variables("Hello, ${name}", {"name": "Foo"})
     ```
+
+    Args:
+        val: A string that may contain variables defined in snippets syntax,
+            it may also be a sequence of strings or a dict with string values,
+            in which case the structure will be recursively expanded.
+        variables: A dict of variable's name, value pairs.
+
+    Returns:
+        A string a list of strings or a dict of string values depending on the
+        type of val.
     """
     return sublime_api.expand_variables(val, variables)
 
 
 def load_settings(base_name):
     """
-    Loads the named settings. The name should include a file name and extension,
-    but not a path The packages will be searched for files matching the
-    _`base_name`_, and the results will be collated into the settings object
-    Subsequent calls to `load_settings()` with the _`base_name`_ will return the
-    same object, and not load the settings from disk again
+    Loads the named settings.
+
+    The packages will be searched for files matching the base_name, and the
+    results will be collated into the settings object.
+    Subsequent calls to `load_settings()` with the base_name will return
+    the same object, and not load the settings from disk again.
+
+    Args:
+        base_name: The name of the settings file, it should include a file name
+            and an extension, but not a path (e.g Preferences.sublime-settings).
+
+    Returns:
+        The settings object associated with the settings file.
     """
     settings_id = sublime_api.load_settings(base_name)
     return Settings(settings_id)
 
 
 def save_settings(base_name):
-    """Flushes any in-memory changes to the named settings object to disk"""
+    """Flushes any in-memory changes to the named settings object to disk."""
     sublime_api.save_settings(base_name)
 
 
 def set_timeout(f, timeout_ms=0):
     """
-    Schedules a function to be called in the future. Sublime Text will block
-    while the function is running
+    Schedules a function to be called in the future.
+
+    Sublime Text will block while the function is running.
+
+    Args:
+        f: A no-argument function to be called
+        timeout_ms: the number of milliseconds after which f will be called.
     """
     sublime_api.set_timeout(f, timeout_ms)
 
 
 def set_timeout_async(f, timeout_ms=0):
     """
-    Schedules a function to be called in the future. The function will be
-    called in a worker thread, and Sublime Text will not block while the
-    function is running
+    Schedules a function to be called in the future.
+
+    The function will be called in a worker thread, and Sublime Text will not
+    block while the function is running.
+
+    Args:
+        f: A no-argument function to be called.
+        timeout_ms: The number of milliseconds after which f will be called.
     """
     sublime_api.set_timeout_async(f, timeout_ms)
 
 
 def active_window():
-    """Returns the most recently used window"""
+    """Returns the most recently used window."""
     return Window(sublime_api.active_window())
 
 
 def windows():
-    """Returns a list of all the open windows"""
+    """Returns a list of all the open windows."""
     return [Window(id) for id in sublime_api.windows()]
 
 
 def get_macro():
     """
-    Returns a list of the commands and args that compromise the currently
-    recorded macro. Each dict will contain the keys command and args
+    Returns a list of the commands and args in the currently recorded macro.
+
+    Each dict will contain the keys command and args.
     """
     return sublime_api.get_macro()
 
@@ -334,7 +432,7 @@ def get_macro():
 class Window(object):
     """
     This class represents windows and provides an interface of methods to
-    interact with them
+    interact with them.
     """
 
     def __init__(self, id):
@@ -349,18 +447,22 @@ class Window(object):
         return self.window_id != 0
 
     def id(self):
-        """Returns a number that uniquely identifies this window"""
+        """Returns a number that uniquely identifies this window."""
         return self.window_id
 
     def is_valid(self):
         return sublime_api.window_num_groups(self.window_id) != 0
 
     def hwnd(self):
-        """Platform specific window handle, only returns a meaningful result under Windows"""
+        """
+        Platform specific window handle.
+
+        Only returns a meaningful result under Windows
+        """
         return sublime_api.window_system_handle(self.window_id)
 
     def active_sheet(self):
-        """Returns the currently focused sheet"""
+        """Returns the currently focused sheet."""
         sheet_id = sublime_api.window_active_sheet(self.window_id)
         if sheet_id == 0:
             return None
@@ -368,7 +470,7 @@ class Window(object):
             return Sheet(sheet_id)
 
     def active_view(self):
-        """Returns the currently edited view"""
+        """Returns the currently edited view."""
         view_id = sublime_api.window_active_view(self.window_id)
         if view_id == 0:
             return None
@@ -377,42 +479,67 @@ class Window(object):
 
     def run_command(self, cmd, args=None):
         """
-        Runs the named `WindowCommand` with the (optional) given _`args`_
+        Runs the named `WindowCommand`.
+
         This method is able to run any sort of command, dispatching the
-        command via input focus
+        command via input focus.
+
+        Args:
+            cmd: The command name.
+            args: The arguments passed to the command.
         """
         sublime_api.window_run_command(self.window_id, cmd, args)
 
     def new_file(self, flags=0, syntax=""):
         """
-        Creates a new file, The returned view will be empty, and its
-        `is_loaded()` method will return `True`.
-        flags must be either `0` or `TRANSIENT`
+        Creates a new file and returns the corresponding view.
+
+        Args:
+            flags: 0 for a normal view or `TRANSIENT` for a preview.
+            syntax: The syntax of the new view.
+
+        Returns:
+            The view coressponding to the new file. The view will be empty,
+            and its `is_loaded()` method will return `True`.
         """
         return View(sublime_api.window_new_file(self.window_id, flags, syntax))
 
     def open_file(self, fname, flags=0, group=-1):
         """
-        Opens the named file, and returns the corresponding view. If the file is
-        already opened, it will be brought to the front. Note that as file
-        loading is asynchronous, operations on the returned view won't be
-        possible until its `is_loading()` method returns `False`.
+        Opens the named file, and returns the corresponding view.
 
-        The optional _`flags`_ parameter is a bitwise combination of:
+        If the file is already opened, it will be brought to the front unless
+        the `FORCE_GROUP` flag is specified.
+        Note that as file loading is asynchronous, operations on the returned
+        view won't be possible until its `is_loading()` method returns `False`.
 
-        `ENCODED_POSITION`: Indicates the file_name should be searched for
-        a :row or :row:col suffix
-        `TRANSIENT`: Open the file as a preview only: it won't have a tab
-        assigned it until modified
-        `FORCE_GROUP`: don't select the file if it's opened in a different
-        group
+        Args:
+            fname: The filename to open, could be absolute or relative and may
+                be suffixed by :row or :row:col where row and col are
+                integers >= 1.
+            flags: A bitwise combination of `ENCODED_POSITION` (indicates the
+                file_name should be searched for a :row or :row:col suffix),
+                `TRANSIENT` (opens the file as a preview only i.e it won't have
+                a tab assigned to it until modified) and `FORCE_GROUP` (opens
+                the file in the specified group even if it's already open in a
+                different group).
+            group: The index of the group to open the file in, if invalid, the
+                file will be opened in the active group instead.
+        Returns:
+            The view associated with the named file.
         """
         return View(sublime_api.window_open_file(self.window_id, fname, flags, group))
 
     def find_open_file(self, fname):
         """
-        Finds the named file in the list of open files, and returns the
-        corresponding `View`, or `None` if no such file is open
+        Find the named file in the list of open files.
+
+        Args:
+            fname: The name of the file, could be absolute or relative.
+
+        Returns:
+            The view corresponding to the file, or `None` if no such file
+            is open.
         """
         view_id = sublime_api.window_find_open_file(self.window_id, fname)
         if view_id == 0:
@@ -421,31 +548,31 @@ class Window(object):
             return View(view_id)
 
     def num_groups(self):
-        """Returns the number of view groups in the window"""
+        """Returns the number of view groups in the window."""
         return sublime_api.window_num_groups(self.window_id)
 
     def active_group(self):
-        """Returns the index of the currently selected group"""
+        """Returns the index of the currently selected group."""
         return sublime_api.window_active_group(self.window_id)
 
     def focus_group(self, idx):
-        """Makes the given group active"""
+        """Makes the given group active."""
         sublime_api.window_focus_group(self.window_id, idx)
 
     def focus_sheet(self, sheet):
-        """Switches to the given _`sheet`_"""
+        """Switches to the given sheet."""
         if sheet:
             sublime_api.window_focus_sheet(self.window_id, sheet.sheet_id)
 
     def focus_view(self, view):
-        """Switches to the given _`view`_"""
+        """Switches to the given view."""
         if view:
             sublime_api.window_focus_view(self.window_id, view.view_id)
 
     def get_sheet_index(self, sheet):
         """
-        Returns the group, and index within the group of the _`sheet`_
-        Returns (-1, -1) if not found
+        Returns the group, and index within the group of the sheet or
+        `(-1, -1)` if not found.
         """
         if sheet:
             return sublime_api.window_get_sheet_index(self.window_id, sheet.sheet_id)
@@ -454,8 +581,8 @@ class Window(object):
 
     def get_view_index(self, view):
         """
-        Returns the group, and index within the group of the _`view`_
-        Returns (-1, -1) if not found
+        Returns the group, and index within the group of the view or `(-1, -1)`
+        if not found.
         """
         if view:
             return sublime_api.window_get_view_index(self.window_id, view.view_id)
@@ -463,11 +590,11 @@ class Window(object):
             return (-1, -1)
 
     def set_sheet_index(self, sheet, group, idx):
-        """Moves the _`sheet`_ to the given _`group`_ and index"""
+        """Moves the sheet to the given group and index."""
         sublime_api.window_set_sheet_index(self.window_id, sheet.sheet_id, group, idx)
 
     def set_view_index(self, view, group, idx):
-        """Moves the _`view`_ to the given _`group`_ and index"""
+        """Moves the view to the given group and index."""
         sublime_api.window_set_view_index(self.window_id, view.view_id, group, idx)
 
     def sheets(self):
@@ -481,7 +608,7 @@ class Window(object):
         return [View(x) for x in view_ids]
 
     def active_sheet_in_group(self, group):
-        """Returns the currently focused sheet in the given _`group`_"""
+        """Returns the currently focused sheet in the given group."""
         sheet_id = sublime_api.window_active_sheet_in_group(self.window_id, group)
         if sheet_id == 0:
             return None
@@ -489,7 +616,7 @@ class Window(object):
             return Sheet(sheet_id)
 
     def active_view_in_group(self, group):
-        """Returns the currently edited view in the given _`group`_"""
+        """Returns the currently edited view in the given group."""
         view_id = sublime_api.window_active_view_in_group(self.window_id, group)
         if view_id == 0:
             return None
@@ -497,7 +624,7 @@ class Window(object):
             return View(view_id)
 
     def sheets_in_group(self, group):
-        """Returns all open sheets in the given _`group`_"""
+        """Returns all open sheets in the given group."""
         sheet_ids = sublime_api.window_sheets_in_group(self.window_id, group)
         return [Sheet(x) for x in sheet_ids]
 
@@ -521,7 +648,7 @@ class Window(object):
             return None
 
     def layout(self):
-        """Returns the current layout"""
+        """Returns the current layout."""
         return sublime_api.window_get_layout(self.window_id)
 
     def get_layout(self):
@@ -529,45 +656,56 @@ class Window(object):
         return sublime_api.window_get_layout(self.window_id)
 
     def set_layout(self, layout):
-        """Changes the tile-based panel layout of view groups"""
+        """Changes the tile-based panel layout of view groups."""
         sublime_api.window_set_layout(self.window_id, layout)
 
     def create_output_panel(self, name, unlisted=False):
         """
-        Returns the view associated with the named output panel, creating it if required
-        The output panel can be shown by running the _show_panel_ window command,
-        with the panel argument set to the _`name`_ with an "output." prefix.
+        Returns the view associated with the named output panel and creates it
+        if required.
 
-        The optional _`unlisted`_ parameter is a boolean to control if the
-        output panel should be listed in the panel switcher
+        The output panel can be shown by running the _show_panel_ window
+        command, with the panel argument set to the _`name`_ with an "output."
+        prefix.
+
+        Args:
+            name: the name of the panel
+            unlisted: controls if the output panel should be listed in the
+                panel switcher.
+
+        Returns:
+            the view associated with the named output
         """
         return View(sublime_api.window_create_output_panel(self.window_id, name, unlisted))
 
     def find_output_panel(self, name):
         """
-        Returns the view associated with the named output panel, or `None` if
-        the output panel does not exist
+        Returns the view associated with the named output panel or `None` if
+        the output panel does not exist.
         """
         view_id = sublime_api.window_find_output_panel(self.window_id, name)
         return View(view_id) if view_id else None
 
     def destroy_output_panel(self, name):
-        """Destroys the named output panel, hiding it if currently open"""
+        """Destroys the named output panel, hiding it if currently open."""
         sublime_api.window_destroy_output_panel(self.window_id, name)
 
     def active_panel(self):
         """
-        Returns the name of the currently open panel, or `None` if no panel is open
+        Return the name of the currently open panel or `None` if no panel is open.
+
         Will return built-in panel names (e.g. "console", "find", etc)
-        in addition to output panels
+        in addition to output panels.
         """
         name = sublime_api.window_active_panel(self.window_id)
         return name or None
 
     def panels(self):
         """
-        Returns a list of the names of all panels that have not been marked as unlisted
-        Includes certain built-in panels in addition to output panels
+        Return a list of the names of all panels that have not been marked as
+        unlisted.
+
+        Include certain built-in panels in addition to output panels.
         """
         return sublime_api.window_panels(self.window_id)
 
@@ -577,30 +715,42 @@ class Window(object):
 
     def show_input_panel(self, caption, initial_text, on_done, on_change, on_cancel):
         """
-        Shows the input panel, to collect a line of input from the user
-        _`on_done`_ and _`on_change`_, if not `None`, should both be functions
-        that expect a single string argument
-        _`on_cancel`_ should be a function that expects no arguments
-        The view used for the input widget is returned
+        Shows the input panel, to collect a line of input from the user.
+
+        Args:
+            caption: the text shown to the left of the input field.
+            initial_text: the text inserted initially in the input field.
+            on_done: if not None, it is called on done with the user input as
+                argument.
+            on_change: if not None, it is called on every change with the user
+                input (so far) as argument.
+            on_cancel: if not None, it is called when the input is cancelled
+                without arguments.
+
+            Returns:
+                The view used for the input widget.
         """
         return View(sublime_api.window_show_input_panel(
             self.window_id, caption, initial_text, on_done, on_change, on_cancel))
 
     def show_quick_panel(self, items, on_select, flags=0, selected_index=-1, on_highlight=None):
         """
-        Shows a quick panel, to select an item in a list.
+        Shows a quick panel to select an item in a list.
 
-        * _`items`_ may be a list of strings, or a list of string lists
-        In the latter case, each entry in the quick panel will show multiple rows.
+        Args:
+            items: may be a list of strings, or a list of string lists, in the
+                latter case, each entry in the quick panel will show multiple
+                rows.
 
-        * _`on_select`_ will be called once, with the index of the selected item
-        If the quick panel was cancelled, _`on_select`_ will be called with an
-        argument of `-1`.
+            on_select: will be called once, with the index of the selected item
+                If the quick panel was cancelled, on_select will be called
+                with an argument of `-1`.
 
-        * _`flags`_ is a bitwise OR of `MONOSPACE_FONT`
-        and `KEEP_OPEN_ON_FOCUS_LOST`
+            flags: is a bitwise OR of `MONOSPACE_FONT` and
+                `KEEP_OPEN_ON_FOCUS_LOST`.
 
-        * _`on_highlighted`_, if given, will be called every time the highlighted item in the quick panel is changed
+            on_highlighted: if given, will be called every time the highlighted
+                item in the quick panel is changed.
         """
         items_per_row = 1
         flat_items = items
@@ -622,47 +772,51 @@ class Window(object):
             flags, selected_index)
 
     def is_sidebar_visible(self):
-        """Returns `True` if the sidebar will be shown when contents are available"""
+        """
+        Returns whether the sidebar will be shown when contents are available.
+        """
         return sublime_api.window_is_ui_element_visible(self.window_id, UI_ELEMENT_SIDE_BAR)
 
     def set_sidebar_visible(self, flag):
-        """Sets the sidebar to be shown or hidden when contents are available"""
+        """
+        Sets the sidebar to be shown or hidden when contents are available.
+        """
         sublime_api.window_set_ui_element_visible(self.window_id, UI_ELEMENT_SIDE_BAR, flag)
 
     def is_minimap_visible(self):
-        """Returns `True` if the minimap is enabled"""
+        """Returns whether the minimap is visible."""
         return sublime_api.window_is_ui_element_visible(self.window_id, UI_ELEMENT_MINIMAP)
 
     def set_minimap_visible(self, flag):
-        """Controls the visibility of the minimap"""
+        """Controls the visibility of the minimap."""
         sublime_api.window_set_ui_element_visible(self.window_id, UI_ELEMENT_MINIMAP, flag)
 
     def is_status_bar_visible(self):
-        """Returns `True` if the status bar will be shown"""
+        """Returns whether the status bar will be shown."""
         return sublime_api.window_is_ui_element_visible(self.window_id, UI_ELEMENT_STATUS_BAR)
 
     def set_status_bar_visible(self, flag):
-        """Controls the visibility of the status bar"""
+        """Controls the visibility of the status bar."""
         sublime_api.window_set_ui_element_visible(self.window_id, UI_ELEMENT_STATUS_BAR, flag)
 
     def get_tabs_visible(self):
-        """Returns `True` if tabs will be shown for open files"""
+        """Returns whether tabs will be shown for open files."""
         return sublime_api.window_is_ui_element_visible(self.window_id, UI_ELEMENT_TABS)
 
     def set_tabs_visible(self, flag):
-        """Controls if tabs will be shown for open files"""
+        """Controls if tabs will be shown for open files."""
         sublime_api.window_set_ui_element_visible(self.window_id, UI_ELEMENT_TABS, flag)
 
     def is_menu_visible(self):
-        """Returns `True` if the menu is visible"""
+        """Returns whether the menu is visible."""
         return sublime_api.window_is_ui_element_visible(self.window_id, UI_ELEMENT_MENU)
 
     def set_menu_visible(self, flag):
-        """Controls if the menu is visible"""
+        """Controls the visiblity of the menu."""
         sublime_api.window_set_ui_element_visible(self.window_id, UI_ELEMENT_MENU, flag)
 
     def folders(self):
-        """Returns a list of the currently open folders"""
+        """Returns a list of the currently open folders."""
         return sublime_api.window_folders(self.window_id)
 
     def project_file_name(self):
@@ -675,22 +829,29 @@ class Window(object):
 
     def project_data(self):
         """
-        Returns the project data associated with the current window
-        The data is in the same format as the contents of a _.sublime-project_ file
+        Returns the project data associated with the current window.
+
+        The data is in the same format as the contents of a _.sublime-project_
+        file.
         """
         return sublime_api.window_get_project_data(self.window_id)
 
     def set_project_data(self, v):
         """
-        Updates the project data associated with the current window
-        If the window is associated with a _.sublime-project_ file, the project
+        Updates the project data associated with the current window.
+
+        If the window is associated with a .sublime-project file, the project
         file will be updated on disk, otherwise the window will store the data
-        internally
+        internally.
         """
         sublime_api.window_set_project_data(self.window_id, v)
 
     def settings(self):
-        """Per-window settings, the contents are persisted in the session"""
+        """
+        Returns Per-window settings.
+
+        The contents are persisted in the session.
+        """
         if not self.settings_object:
             self.settings_object = Settings(
                 sublime_api.window_settings(self.window_id))
@@ -699,8 +860,8 @@ class Window(object):
 
     def template_settings(self):
         """
-        Per-window settings that are persisted in the session, and duplicated
-        into new windows
+        Returns Per-window settings that are persisted in the session,
+        and duplicated into new windows.
         """
         if not self.template_settings_object:
             self.template_settings_object = Settings(
@@ -710,54 +871,56 @@ class Window(object):
 
     def lookup_symbol_in_index(self, sym):
         """
-        Returns all locations where the symbol _`sym`_ is defined across files in
-        the current project
+        Returns all locations where the symbol sym is defined across files
+        in the current project.
         """
         return sublime_api.window_lookup_symbol(self.window_id, sym)
 
     def lookup_symbol_in_open_files(self, sym):
         """
-        Returns all files and locations where the symbol _`sym`_ is defined, searching
-        through open files
+        Returns all files and locations where the symbol sym is defined
+        searching through open files.
         """
         return sublime_api.window_lookup_symbol_in_open_files(self.window_id, sym)
 
     def lookup_references_in_index(self, sym):
         """
-        Returns all files and locations where the symbol _`sym`_ is referenced,
-        using the symbol index
+        Returns all files and locations where the symbol sym is referenced,
+        using the symbol index.
         """
         return sublime_api.window_lookup_references(self.window_id, sym)
 
     def lookup_references_in_open_files(self, sym):
         """
-        Returns all files and locations where the symbol _`sym`_ is referenced,
-        searching through open files
+        Returns all files and locations where the symbol sym is referenced,
+        searching through open files.
         """
         return sublime_api.window_lookup_references_in_open_files(self.window_id, sym)
 
     def extract_variables(self):
         """
-        Returns a dictionary of strings populated with contextual keys:
-        _packages_, _platform_, _file_, _file_path_, _file_name_, _file_base_name_,
-        _file_extension_, _folder_, _project_, _project_path_, _project_name_,
-        _project_base_name_, _project_extension_
+        Returns a dictionary of strings populated with contextual keys.
+
+        the keys are: packages, platform, file, file_path, file_name,
+        file_base_name, file_extension, folder, project, project_path,
+        project_name, project_base_name and project_extension.
         This dict is suitable for passing to `sublime.expand_variables()`
         """
         return sublime_api.window_extract_variables(self.window_id)
 
     def status_message(self, msg):
-        """Show a message in the status bar"""
+        """Shows a message in the status bar."""
         sublime_api.window_status_message(self.window_id, msg)
 
 
 class Edit(object):
     """
-    `Edit` objects have no functions, they exist to group buffer modifications
+    `Edit` objects have no functions, they exist to group buffer modifications.
 
     `Edit` objects are passed to `TextCommands`, and can not be created by the
-    user. Using an invalid `Edit` object, or an `Edit` object from a different view,
-    will cause the functions that require them to fail
+    user.
+    Using an invalid `Edit` object, or an `Edit` object from a different view,
+    will cause the functions that require them to fail.
     """
 
     def __init__(self, token):
@@ -765,7 +928,14 @@ class Edit(object):
 
 
 class Region(object):
-    """Represents an area of the buffer. Empty regions, where `a == b` are valid"""
+    """
+    Represents an area of the buffer.
+
+    Empty regions, where `a == b` are valid
+    Attributes:
+        a: the 
+    """
+
     __slots__ = ['a', 'b', 'xpos']
 
     def __init__(self, a, b=None, xpos=-1):
@@ -797,18 +967,18 @@ class Region(object):
             return lhs_begin < rhs_begin
 
     def empty(self):
-        """Returns `True` if `begin() == end()`"""
+        """Return `True` if `begin() == end()`."""
         return self.a == self.b
 
     def begin(self):
-        """Returns the minimum of `a` and `b`"""
+        """Return the minimum of `a` and `b`."""
         if self.a < self.b:
             return self.a
         else:
             return self.b
 
     def end(self):
-        """Returns the maximum of `a` and `b`"""
+        """Return the maximum of `a` and `b`."""
         if self.a < self.b:
             return self.b
         else:
@@ -816,8 +986,7 @@ class Region(object):
 
     def size(self):
         """
-        deprecated, use `len()` instead
-        Returns the number of characters spanned by the region. Always >= 0
+        Return the number of characters spanned by the region. Always >= 0.
         """
         return abs(self.a - self.b)
 
@@ -832,7 +1001,7 @@ class Region(object):
             return x >= self.begin() and x <= self.end()
 
     def cover(self, rhs):
-        """Returns a `Region` spanning both this and the given regions"""
+        """Return a `Region` spanning both this and the given regions."""
         a = min(self.begin(), rhs.begin())
         b = max(self.end(), rhs.end())
 
@@ -868,7 +1037,8 @@ class Region(object):
 
 class Selection(object):
     """
-    Maintains a set of Regions, ensuring that none overlap
+    Maintain a set of Regions, ensuring that none overlap.
+
     The regions are kept in sorted order
     """
 
@@ -1041,12 +1211,20 @@ class View(object):
         sublime_api.view_retarget(self.view_id, new_fname)
 
     def name(self):
-        """The name assigned to the buffer, if any"""
+        """Return the name assigned to the buffer, if any."""
         return sublime_api.view_get_name(self.view_id)
 
     def set_name(self, name):
-        """Assigns a _`name`_ to the buffer"""
+        """Assign a _`name`_ to the buffer."""
         sublime_api.view_set_name(self.view_id, name)
+
+    def reset_reference_document(self):
+        """Clear the state of the incremental diff for the view."""
+        sublime_api.view_reset_reference_document(self.view_id)
+
+    def set_reference_document(self, reference):
+        """Use the string reference to calculate the initial diff for the incremental diff."""
+        sublime_api.view_set_reference_document(self.view_id, reference)
 
     def is_loading(self):
         """
